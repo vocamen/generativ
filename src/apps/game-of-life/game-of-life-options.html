@@ -1,0 +1,31 @@
+<html>
+<head>
+	<title>generativ - game of life</title>
+	
+	<script type="text/javascript" src="game-of-life.js"></script>
+	<script src="../../jquery-2.1.1.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="../apps-style.css">
+</head>
+
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			createImageData("canvas");
+		});
+	</script>
+
+	<div id="input-zone" class="pattern01">
+		<label class="clabel">Starting pattern:</label>
+		<select class="cinput" id="sp">
+			<option value="random">Random</option>
+			<option value="sierpinski-carpet">Sierpinski Carpet</option>
+			<option value="glider">Glider</option>
+		</select>
+		<button class="cbutton" type="button" onclick='setStartPattern($("#sp").val());'>Start</button>
+		<a class="cbutton" href="http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">details</a>
+	</div>
+	<canvas id="canvas" class="ccanvas">Your browser does not support the canvas element.</canvas>
+</body>
+
+</html>

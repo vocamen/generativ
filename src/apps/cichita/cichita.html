@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>generativ - cichita</title>
+		
+        <script type="text/javascript" src="next.js"></script>
+		<script src="../../jquery-2.1.1.min.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="../apps-style.css">
+        
+        <script type="text/javascript">
+       	function openFile(fileName) {
+       		$.ajax({
+                url: fileName,
+                type: 'get',
+                async: false,
+                success: function(html) {
+                    var twig = String(html);
+                    return twig;
+                }
+            });       		
+       	}
+        </script>
+        
+    </head>
+    <body class="pattern01">
+    	<div id="#inputZoneFullHeight">
+    		<label class="clabel">Predefined Input:</label><br>
+    		<div class="checkboxContainer">
+    			<input type="checkbox" class="cinput" id="1"/>Text 1 asdasdasd askdhaskhdasd aasdjasdjaskjdaslkdlkasjdlkaj aasdjasdjaskjdaslkdlkasjdlkaj aasdjasdjaskjdaslkdlkasjdlkaj<br>
+    			<input type="checkbox" class="cinput" id="1"/>Text 1<br>
+    			<input type="checkbox" class="cinput" id="1"/>Text 1<br>
+    			<input type="checkbox" class="cinput" id="1"/>Text 1<br>
+    			<input type="checkbox" class="cinput" id="1"/>Text 1<br>
+    			<input type="checkbox" class="cinput" id="1"/>Text 1<br>
+    			<input type="checkbox" class="cinput" id="1"/>Text 1<br>
+    			<input type="checkbox" class="cinput" id="1"/>Text 1<br>
+    			<input type="checkbox" class="cinput" id="1"/>Text 1<br>
+    			<input type="checkbox" class="cinput" id="1"/>Text 1<br>
+    			<input type="checkbox" class="cinput" id="1"/>Text 1<br>
+    			<input type="checkbox" class="cinput" id="1"/>Text 1<br>
+    		</div>
+    		<br>
+    		<label class="clabel">Custom Input:</label><button class="cbutton" onclick="$('#input').val(openFile('file://text.txt'));">more info...</button><br>
+            <textarea rows="15" cols="100" id="input" class="cinput"></textarea><br>
+            <label class="clabel">Nr. of left words:</label><input class="cinput" id="leftWords" value="1" size="5"/>
+            <label class="clabel">Nr. of right words:</label><input class="cinput" id="rightWords" value="1" size="5"/>
+            <label class="clabel">Max length:</label><input class="cinput" id="maxLength" value="50" size="5"/>
+            <button class="cbutton" onclick="recreate(parseInt($('#maxLength').val()), $('#input').val(), parseInt($('#leftWords').val()), parseInt($('#rightWords').val()));">Generate</button>
+            <br>
+            <label class="clabel">Output Text:</label><br>
+        	<textarea rows="15" cols="100" id="output" class="cinput"></textarea>
+        	<br>
+        	<button class="cbutton" onclick="showHelpMessage();">more info...</button>
+    	</div>
+    </body>
+</html>
