@@ -8,6 +8,7 @@ var timer;
 var minPixelVal = 0;
 var maxPixelVal = 0;
 var avgPixelVal = 0;
+var currentRule = "r0";
 
 function loadCanvas(imagePath) {
 	
@@ -15,6 +16,12 @@ function loadCanvas(imagePath) {
     var ctx=oc.getContext("2d");
     var img=new Image();
     img.onload = function(){
+    	
+    	if (timer) {
+            clearTimeout(timer);
+            timer = 0;
+        }
+    	
     	  oc.width = img.width;
     	  oc.height = img.height;
           ctx.drawImage(img,0,0, img.width, img.height);
@@ -53,7 +60,9 @@ function loadCanvas(imagePath) {
     img.src=imagePath;
 }
 
-function createImageData(canvasId) {
+function createImageData(canvasId, rule) {
+	currentRule = rule;
+	
 	var element = document.getElementById(canvasId);
 	c = element.getContext("2d");
 	
@@ -74,51 +83,6 @@ function createImageData(canvasId) {
 
 function rgbToInt(r, g, b) {
 	return (r << 16) | (g << 8) | (b);
-}
-
-function setStartPattern(spattern) {
-	if (timer) {
-        clearTimeout(timer);
-        timer = 0;
-    }
-	
-	console.log(spattern);
-	
-	if (spattern == "random")
-		initCellData(initRandom);
-	else if (spattern == "sierpinski-carpet")
-		initCellData(initSierpinskiCarpet);
-	else if (spattern == "glider")
-		initCellData(glider);
-	
-	anim();
-}
-
-function initCellData(func) {
-	for (var x = 0; x < width; x++) {
-		for (var y = 0; y < height; y++) {
-			newCellData[x + y * width] = func(x, y);
-		}
-	}
-}
-
-function initRandom(x, y) {
-	r = Math.random() * 256;
-
-	if (r < 20)
-		return 1;
-
-	return 0;
-}	
-
-function initSierpinskiCarpet(x, y) {
-	while (x > 0 || y > 0) {// when either of these reaches zero the pixel is determined to be on the edge at that square level and must be filled
-		if (x % 3 == 1 && y % 3 == 1) // checks if the pixel is in the center for the current square level
-			return 0;
-		x = Math.floor(x/3); // x and y are decremented to check the next larger square level
-		y = Math.floor(y/3);
-	}
-	return 1; // if all possible square levels are checked and the pixel is not determined to be open it must be filled
 }
 
 function translateData(dat) {
@@ -142,10 +106,42 @@ function getRandNb(nbs, alive, me) {
 		return al[randInt(0, al.length - 1)];
 	
 	if (!alive) {
-		if (dead.length > 0)
-			return dead[randInt(0, dead.length - 1)];
-		else
-			return minPixelVal + maxPixelVal - me;//minPixelVal;//TODO //al[randInt(0, al.length-1)];
+		if (currentRule === "r0") {
+			//returns the min pixel value (dead pixel)
+			if (dead.length > 0) {
+				return dead[randInt(0, dead.length - 1)];
+			} else {
+				return minPixelVal;
+			}
+		} else if (currentRule === "r1") {
+			//returns the average of all its neighbors
+			var medv = 0;
+			for (var i = 0; i < nbs.length; i++) {
+				medv += nbs[i];
+			}
+			return Math.round(medv / nbs.length);
+		} else if (currentRule === "r2") {
+			//returns the negative pixel
+			if (dead.length > 2) {
+				return dead[randInt(0, dead.length - 1)];
+			} else {
+				return minPixelVal + maxPixelVal - me;
+			}
+		} else if (currentRule === "r3") {
+			//returns a random alive pixel
+			if (dead.length > 2) {
+				return dead[randInt(0, dead.length - 1)];
+			} else {
+				return al[randInt(0, al.length-1)];
+			}
+		} else if (currentRule === "r4") {
+			//returns the negative of the average of all its neighbors
+			var medv = 0;
+			for (var i = 0; i < nbs.length; i++) {
+				medv += nbs[i];
+			}
+			return minPixelVal + maxPixelVal - Math.round(medv / nbs.length);
+		}
 	} 
 }
 
