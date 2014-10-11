@@ -6,12 +6,11 @@ function intToRgba(color) {
 	var r = color >> 24 & 0xFF;
 	var g = color >> 16 & 0xFF;
 	var b = color >> 8 & 0xFF; 
-	var a = color 0 & 0xFF;
+	var a = color & 0xFF;
 	
 	return [r, g, b, a];
 } 
 
 function randInt(minVal, maxVal) {
-	return minVal + Math.round(Math.random() * maxVal);
+	return minVal + Math.round(Math.random() * (maxVal - minVal));
 }
-

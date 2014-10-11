@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>generativ - random unicode</title>
+		
+        <script type="text/javascript" src="../utils.js"></script>
+        <script type="text/javascript" src="unicodes.js"></script>
+		<script src="../../jquery-2.1.1.min.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="../apps-style.css">
+        
+        <script type="text/javascript">
+	        $( document ).ready(function() {
+	    		initDefaultInput();
+	    	});
+        </script>
+        
+    </head>
+    <body class="pattern01">
+    	<div id="#inputZoneFullHeight">
+            <label class="clabel">Max length:</label><input class="cinput" id="maxLength" value="50" size="5"/>
+            <label class="clabel">Color:</label>
+			<input id="color" class="cinput" type="color">
+			<label class="clabel">Background Color:</label>
+			<input id="bgcolor" class="cinput" type="color" value="#ffffff">
+            <button class="cbutton" onclick="recreate(parseInt($('#maxLength').val()));">Generate</button>
+            <br>
+    		<label class="clabel">Input:</label><br>
+            <textarea rows="15" cols="100" id="input" class="cinput"></textarea>
+            <br>
+    		<label class="clabel">Output:</label>
+    		<br>
+            <textarea rows="15" cols="100" id="output" class="cinput"></textarea><br>
+    	</div>
+    </body>
+</html>

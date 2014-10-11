@@ -5,7 +5,7 @@ var c;
 var cellData;
 
 function createImageData(canvasId) {
-	element = document.getElementById(canvasId);
+	var element = document.getElementById(canvasId);
 	c = element.getContext("2d");
 
 	element.width = $(document).width();

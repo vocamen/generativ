@@ -37,10 +37,6 @@ function parseText(text, leftWords, rightWords) {
 	}
 }
 
-function randInt(minVal, maxVal) {
-	return minVal + Math.round(Math.random() * maxVal);
-}
-
 function recreate(maxLength, inputText, leftWordsNr, rightWordsNr) {
 	
 	if (leftWordsNr < 1)

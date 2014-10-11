@@ -57,7 +57,7 @@ b = sqrt(5)*x*5*3-y*y*cos(x*6)+7/7/y
  */
 
 function createImageData(canvasId) {
-	element = document.getElementById(canvasId);
+	var element = document.getElementById(canvasId);
 	c = element.getContext("2d");
 
 	element.width = $(canvas).width();

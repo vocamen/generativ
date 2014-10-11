@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>generativ - nearest</title>
 
-<script type="text/javascript" src="game-of-life.js"></script>
+<script type="text/javascript" src="nearest.js"></script>
 <script src="../../jquery-2.1.1.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="../apps-style.css">
@@ -17,7 +17,7 @@
     <div id="#input-zone" class="pattern01">
 		Replace each pixel's value with the nearest (prime/fibo etc.) number<br>
 		<label class="clabel">Select Image:</label>
-		<input id="fileUrl" class="cinput" type="text" name="fileUrl" size="70" value="border-image.png">
+		<input id="fileUrl" class="cinput" type="text" name="fileUrl" size="70" value="monalisa.jpg">
 		<button id="openButton" class="cbutton" onclick="loadCanvas($('#fileUrl').val());">Open</button><br>
 		<label class="clabel">Type:</label>
 		<select id="nearestVal" class="cinput">
@@ -37,7 +37,7 @@
 			<option value="up">Up</option>
 			<option value="down">Down</option>
 		</select> <b>Up</b> : increment; <b>Down</b> : decrement if not a fibo/prime value
-		<button type="button" class="cbutton" style="margin-left: 305px;" onclick='createImageData("originalCanvas");'>Replace</button>
+		<button type="button" class="cbutton" style="margin-left: 305px;" onclick='nearest($("#nearestVal").val(), $("#applyVal").val(), $("#nearestDir").val());'>Replace</button>
 	</div>
 
 	<div style="display: inline-block; width: 100%;">
