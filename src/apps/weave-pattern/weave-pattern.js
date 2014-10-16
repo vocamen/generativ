@@ -58,7 +58,7 @@ function initPatterns() {
 	for (var i = 0; i < weaveH; i++) {
 		for (var j = 0; j < weaveW; j++) {
 			if (i < topSize) {
-				topPattern[i][j] = randInt(0, 1);
+				topPattern[i][j] = j % 9;// randInt(0, 1);
 			} else {
 				topPattern[i][j] = 0;
 			}
