@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Symmetric painting with canvas</title>
+</head>
+<body>
+<canvas id="a">
+This is a Javascript drawing board for symmetric figrues. Please enable Javascript and use a canvas-able browser. 
+</canvas>
+<script>
+
+//soure http://bernhardhaeussner.de/odd/draw_symmetry/?5
+
+// http://aktuell.de.selfhtml.org/artikel/javascript/organisation/
+// usage: this.button.onclick = this.handler.bindAsEventListener(this);
+Function.prototype.bindAsEventListener = function (object) {
+    var method = this;
+    return function (event) {
+        return method.call(object, event || window.event);
+    }
+}
+
+var ctx,dots=3;
+
+function AligatorCanvas(id){
+	this.ctx;
+	this.id=id;
+	this.circle=function(cx,cy,rad) {
+		this.shade();
+		this.ctx.fillStyle = "#000000";
+		this.ctx.beginPath(); 
+		this.ctx.arc(cx,cy,rad,0,Math.PI*2,true);
+		this.ctx.fill();
+	}
+	this.shadeCnt=0;
+	this.shade=function(cx,cy,rad) {
+		if(this.shadeCnt==0) {
+		this.ctx.fillStyle = "rgba(255, 255, 255, 0.02)";  
+		this.ctx.fillRect (0, 0, this.width,this.height);
+			this.shadeCnt=5;
+		} else {
+			//this.shadeCnt--;
+		}
+	}
+	this.refreshSize=function() {
+		var
+			el=document.getElementById(this.id)
+			viewportWidth = window.innerWidth,
+			viewportHeight = window.innerHeight
+		;
+		this.width=viewportWidth,
+		this.height=viewportHeight;
+		el.style.position="fixed";
+		el.setAttribute("width",this.width);
+		el.setAttribute("height",this.height);
+		el.style.left=(this.width-this.width)  /2+"px";
+		el.style.top =(this.height-this.height)/2+"px";
+		this.ctx = el.getContext("2d");
+		var ctx=this.ctx;
+		ctx.clearRect(0,0,this.width,this.height);
+	}
+	window.onresize=this.refreshSize.bindAsEventListener(this);
+	this.refreshSize();
+}
+
+var c=new AligatorCanvas("a");
+
+//http://stackoverflow.com/questions/1152203/centering-a-canvas/1646370#1646370
+window.onmousemove=function(e){
+	var
+		cartX=(e.clientX-c.width/2),
+		cartY=(e.clientY-c.height/2),
+		phi=Math.atan2(cartY,cartX),
+		rad=Math.sqrt(Math.pow(cartX,2)+Math.pow(cartY,2))
+	;
+	// without canvas methods:
+	for (var i=0;i<dots;i++) {
+		phi+=Math.PI*2/dots;
+		c.circle(rad*Math.cos(phi)+c.width/2,rad*Math.sin(phi)+c.height/2,10);
+	}
+	// with canvas methods:
+	/*c.ctx.save();
+	c.ctx.translate(c.width/2,c.height/2);
+	c.ctx.rotate(phi);
+	for (var i=0;i<dots;i++) {
+		c.ctx.rotate(Math.PI*2/dots);  
+		c.circle(rad,rad,10);
+	}
+	c.ctx.restore();*/
+}
+</script>
+
+</body>
+</html>

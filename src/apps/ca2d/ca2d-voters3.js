@@ -54,106 +54,51 @@ function initCellData(func) {
 }
 
 function initRandom(x, y) {
-	var r = Math.random() * 256;
-	if (r < 20)
-		return 1;
-	return 0;
+	return randInt(0, 100);
 }	
 
 //pairs x,y
 var golHood = [-1, -1, 0, -1, 1, -1, -1, 0, 1, 0, -1, 1, 0, 1, 1, 1];
+var k1 = 3;
+var k2 = 2;
+var g = 20;
 
 function golProcessNeighbors(neighbors, currentValue) {
 	var sum = 0;
+	var infected = 0
+	var ill = 0;
+	
 	for (var i = 0; i < neighbors.length; i++) {
 		sum += neighbors[i];
+		if (neighbors[1] == 255)
+			ill++;
+		else if (neighbors[i] != 1 && neighbors[i] != 0) 
+			infected++;
 	}
 	
-//	if (currentValue == 1) {
-//		//survive
-//		if (sum == 2 || sum == 3)
-//			return 1;
-//		else
-//			return 0;
-//	} else {
-//		//born
-//		if (sum == 3 || sum == 6)
-//			return 1;
-//		else
-//			return 0;
-//	}
-//	
 	
-	//good for maps
-//	if (currentValue == 1) {
-//		//survive
-//		if (sum >= 3 && sum <= 8)
-//			return 1;
-//		else
-//			return 0;
-//	} else {
-//		//born
-//		if (sum == 3 || sum == 6 || sum == 7 || sum == 8)
-//			return 1;
-//		else
-//			return 0;
-//	}
+	sum += currentValue;
 	
-//	if (currentValue == 1) {
-//		//survive
-//		if (sum >= 5 && sum <= 8)
-//			return 1;
-//		else
-//			return 0;
-//	} else {
-//		//born
-//		if (sum >= 3 && sum <= 8)
-//			return 1;
-//		else
-//			return 0;
-//	}
+	if (currentValue == 0) {
+		return Math.abs(infected/k1 + ill/k2);
+	} else if (currentValue == 255) {
+		return 0;
+	} else {
+		return Math.min(Math.abs(sum/infected) + g, 255);
+	}
 	
-		//born
-		if (sum >= 2 && sum <= 4)
-			return 1;
-		else
-			return 0;
-		
-		/*
-		 * B3/S23 [Life]
-John Conway's rule is by far the best known and most explored CA.
-
-B36/S23 [HighLife]
-Very similar to Conway's Life but with an interesting replicator.
-
-B3678/S34678 [Day & Night]
-Dead cells in a sea of live cells behave the same as live cells in a sea of dead cells.
-
-B35678/S5678 [Diamoeba]
-Creates diamond-shaped blobs with unpredictable behavior.
-
-B2 [Seeds]
-Every living cell dies every generation, but most patterns still explode.
-
-B234 [Serviettes or Persian Rug]
-A single 2x2 block turns into a set of Persian rugs.
-
-B345/S5 [LongLife]
-Oscillators with extremely long periods can occur quite naturally. 
-		 * 
-		 */
 }
 
 function anim() {
 	drawRGBA(newCellData, dataWidth, dataHeight, translatePixel, 0, 0);
-	timer = setTimeout(anim, 100);
+	timer = setTimeout(anim, 1000);
 	oldCellData = newCellData.slice(0);
 	evolve(golHood, golProcessNeighbors, dataWidth, dataHeight, oldCellData, newCellData);
 }
 
 function translatePixel(x, y, data) {
-	var r = Math.abs(data-1) * 255;
-	var g = Math.abs(data-1) * 255;
-	var b = Math.abs(data-1) * 255;
+	var r = Math.round(data) % 255;
+	var g = Math.round(data) % 255;
+	var b = Math.round(data) % 255;
 	return [r, g, b, 255];
 }
