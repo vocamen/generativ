@@ -1,3 +1,7 @@
+function rgbToInt(r, g, b) {
+	return (r << 16) | (g << 8) | (b);
+}
+
 function rgbaToInt(r, g, b, a) {
 	return (r << 24) | (g << 16) | (b << 8) | (a);
 }
