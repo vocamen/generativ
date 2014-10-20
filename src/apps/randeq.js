@@ -38,6 +38,11 @@ function genExp(symbols) {
 	return getRandFromList(symbols);
 }
 
+function genDoubleExp(symbols) {
+	openParens += 1;
+	return getRandFromList(symbols);
+}
+
 function ssm(maxIterations, states, rules) {
 	var result = "";
 	var currentState = "initial";
@@ -67,6 +72,7 @@ var exp = Math.exp;
 var abs = Math.abs;
 var log = Math.log;
 var tan = Math.tan;
+var pow = Math.pow;
 var neg = negop;
 
 function genRandEq2(length) {

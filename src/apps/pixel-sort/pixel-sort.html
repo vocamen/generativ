@@ -1,0 +1,38 @@
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>generativ - img eater</title>
+
+<script type="text/javascript" src="../utils.js"></script>
+<script type="text/javascript" src="pixel-sort.js"></script>
+<script src="../../jquery-2.1.1.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="../apps-style.css">
+
+</head>
+
+<body>
+    <div id="#input-zone" class="pattern01">
+		<label class="clabel">Select Image:</label>
+		<input id="fileUrl" class="cinput" type="text" name="fileUrl" size="70" value="monalisa.jpg">
+		<button id="openButton" class="cbutton" onclick="loadCanvas($('#fileUrl').val());">Open</button>
+		<br>
+		<label class="clabel">Dead rule:</label> 
+		<select id="deadRule" class="cinput">
+			<option value="r0">Pixel</option>
+			<option value="r1">Negative pixel</option>
+			<option value="r2">Min. pixel value (dead pixel)</option>
+			<option value="r3">Average of neighbor pixels</option>
+			<option value="r4">Negative average of neighbor pixels</option>
+			<option value="r5">Random alive pixel</option>
+		</select>
+		<button type="button" class="cbutton" style="margin-left: 305px;" onclick='createImageData("originalCanvas", $("#deadRule").val());'>Start</button>
+	</div>
+
+	<canvas id="originalCanvas"></canvas>
+</body>
+
+</html>

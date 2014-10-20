@@ -1,0 +1,50 @@
+<html>
+
+<head>
+
+<script type="text/javascript" src="../utils.js"></script>
+<script src="../../jquery-2.1.1.min.js"></script>
+
+<script type="text/javascript">
+
+$( document ).ready(function() {
+	var canvas = document.getElementById("canvas");
+	var context = canvas.getContext("2d");
+
+	context.fillStyle="rgb(0,0,0)";
+	
+	var rr = randInt(10, 450);
+
+	context.beginPath();
+	context.moveTo(58,348);
+	for (var i = 0; i < randInt(2, 15); i++) {
+		context.bezierCurveTo(randInt(10, 450),randInt(10, 450),randInt(10, 450),116,randInt(10, 450),randInt(10, 450));
+		/* context.bezierCurveTo(randInt(10, 450),randInt(10, 450),randInt(10, 450),238,randInt(10, 450),randInt(10, 450));
+		context.bezierCurveTo(randInt(10, 450),randInt(10, 450),randInt(10, 450),380,randInt(10, 450),randInt(10, 450));
+		context.bezierCurveTo(randInt(10, 450),randInt(10, 450),randInt(10, 450),395,randInt(10, 450),randInt(10, 450));
+		context.bezierCurveTo(randInt(10, 450),randInt(10, 450),randInt(10, 450),411,randInt(10, 450),randInt(10, 450));
+		context.bezierCurveTo(randInt(10, 450),randInt(10, 450),randInt(10, 450),410,randInt(10, 450),randInt(10, 450));
+		context.bezierCurveTo(randInt(10, 450),randInt(10, 450),randInt(10, 450),408,randInt(10, 450),randInt(10, 450));
+		context.bezierCurveTo(randInt(10, 450),randInt(10, 450),randInt(10, 450),262,randInt(10, 450),randInt(10, 450));
+		context.bezierCurveTo(randInt(10, 450),randInt(10, 450),randInt(10, 450),333,randInt(10, 450),randInt(10, 450));
+		context.bezierCurveTo(randInt(10, 450),randInt(10, 450),randInt(10, 450),409,randInt(10, 450),randInt(10, 450));
+		context.bezierCurveTo(randInt(10, 450),randInt(10, 450),randInt(10, 450),410,randInt(10, 450),randInt(10, 450)); */
+	}
+	
+	/* context.bezierCurveTo(86,410,45,411,5,410);
+	context.bezierCurveTo(1,411,0,406,0,402);
+	context.bezierCurveTo(0,399,4,398,6,396);
+	context.bezierCurveTo(28,387,48,370,58,348);
+	context.lineTo(58,348); */
+
+	context.fill();
+});
+
+</script>
+</head>
+
+<body>
+<canvas id="canvas" width="500" height="500"></canvas>
+</body>
+
+</html>
