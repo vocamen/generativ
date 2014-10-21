@@ -101,7 +101,7 @@ function cosineInterpolate(x0, y0, x1, y1) {
 }
 
 function drawLineBetweenPoints(p1x, p1y, p2x, p2y) {
-	var pts = cosineInterpolate(p1x, p1y, p2x, p2y);
+	var pts = interpolate(p1x, p1y, p2x, p2y);
 	for (var i = 0; i < pts.length; i += 2) {
 		var x = pts[i];
 		var y = pts[i + 1] % (height - 1);
@@ -109,21 +109,92 @@ function drawLineBetweenPoints(p1x, p1y, p2x, p2y) {
 	}
 }
 
-function createPattern() {
+function createPatternHoriz() {
+	var startHeight = randInt(0, height - 1);
+	var step = 1;
 	
-	var sx = 0;
-	var sy = randInt(0, height);
-	var stepX = 10;
-	var stepY = 10;
-	var nrOfpoints = 
+	for (var i = 0; i < width; i++) {
+		pattern[i + startHeight * width] = 1;
+		startHeight += randInt(-step, step);
+	}
+}
+
+function createPatternVert() {
+	var startWidth = randInt(0, width - 1);
+	var step = 1;
 	
-	drawLineBetweenPoints(50, 50, 200, 200);
-	drawLineBetweenPoints(100, 100, 200, 200);
+	for (var i = 0; i < height; i++) {
+		pattern[startWidth + i * width] = 1;
+		startWidth += randInt(-step, step);
+	}
+}
+
+function createPattern2() {
+	var startHeight = height/2;
+	var step = 15;
+	var nrOfPoints = 1000;
+	var nextWidth = width/2;
 	
+	for (var i = 0; i < nrOfPoints; i++) {
+		pattern[nextWidth + startHeight * width] = 1;
+		startHeight += randInt(-step, step);
+		nextWidth += randInt(-step, step);
+	}
+}
+
+function createPattern3() {
+	var startHeight = height/2;
+	var step = 15;
+	var nrOfPoints = 1000;
+	var nextWidth = width/2;
+	
+	var lastx = nextWidth;
+	var lasty = startHeight;
+	
+	for (var i = 0; i < nrOfPoints; i++) {
+		pattern[nextWidth + startHeight * width] = 1;
+		startHeight += randInt(-step, step);
+		nextWidth += randInt(-step, step);
+		
+		drawLineBetweenPoints(lastx, lasty, nextWidth, startHeight);
+		
+		lastx = nextWidth;
+		lasty = startHeight;
+	}
+}
+
+function createPattern4() {
+	var startHeight = height/2;
+	var step = 5;
+	var nrOfPoints = 1000;
+	var nextWidth = width/2;
+	
+	var lastx = nextWidth;
+	var lasty = startHeight;
+	
+	for (var i = 0; i < nrOfPoints; i++) {
+		pattern[nextWidth + startHeight * width] = 1;
+		var chooseF = randInt(0, 3);
+		
+		if (chooseF == 0) {
+			startHeight -= step;
+		} else if (chooseF == 1) {
+			nextWidth += step;
+		} else if (chooseF == 2){
+			startHeight += step;
+		} else {
+			nextWidth -= step;
+		}
+		
+		drawLineBetweenPoints(lastx, lasty, nextWidth, startHeight);
+		
+		lastx = nextWidth;
+		lasty = startHeight;
+	}
 }
 
 function anim() {
-	createPattern();
+	createPatternVert();
 	draw(imageData);
 	c.putImageData(imageData, 0, 0);
 }
@@ -131,7 +202,7 @@ function anim() {
 function draw(imageData) {
 	for (var x = 0; x < width; x++) {
 		for (var y = 0; y < height; y++) {
-			index = x + y * width;
+			var index = x + y * width;
 			
 			if (pattern[index] == 1)
 				setPixel(imageData, x, y, 0, 0, 0, 255);
