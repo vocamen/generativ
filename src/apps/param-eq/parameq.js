@@ -1,13 +1,21 @@
+/*
+ * Supershapes / Superformula / super ellipse
+ *  x = pow(pow(abs(cos(m*t/4)/a),n2)+pow(abs(sin(m*t/4)/b),n3),neg(1)/n1) * cos(t)
+	y = pow(pow(abs(cos(m*t/4)/a),n2)+pow(abs(sin(m*t/4)/b),n3),neg(1)/n1) * sin(t)
+ * 
+ */
+
+
 var imageData;
 var width;
 var height;
-var c;
+var context;
 var cellData;
 var scale = 1;
 
 function createImageData(canvasId) {
 	var element = document.getElementById(canvasId);
-	c = element.getContext("2d");
+	context = element.getContext("2d");
 
 	element.width = $(document).width();
 	element.height = $(document).height();
@@ -15,11 +23,11 @@ function createImageData(canvasId) {
 	width = element.width;
 	height = element.height;
 
-	imageData = c.createImageData(width, height);
+	imageData = context.createImageData(width, height);
 	
 	cellData = new Array(width * height);
 	
-	c.putImageData(imageData, 0, 0);
+	context.putImageData(imageData, 0, 0);
 }
 
 function drawParamEq(xeq, yeq, minVal, maxVal, step, color) {
@@ -35,7 +43,7 @@ function drawParamEq(xeq, yeq, minVal, maxVal, step, color) {
 		setPixel(imageData, x, y, r, g, b, 255);
 	}
 	
-	c.putImageData(imageData, 0, 0);
+	context.putImageData(imageData, 0, 0);
 }
 
 function clearCanvas() {
@@ -44,7 +52,7 @@ function clearCanvas() {
 			setPixel(imageData, x, y, 255, 255, 255, 255);
 		}
 	}
-	c.putImageData(imageData, 0, 0);
+	context.putImageData(imageData, 0, 0);
 }
 
 function setPixel(imageData, x, y, r, g, b, a) {
@@ -53,4 +61,9 @@ function setPixel(imageData, x, y, r, g, b, a) {
     imageData.data[index+1] = g;
     imageData.data[index+2] = b;
     imageData.data[index+3] = a;
+}
+
+////
+function evalRandEqT(t, expr) {
+	return eval(expr);
 }

@@ -53,6 +53,10 @@ r = 10-x+neg(abs(6)/tan(1))+y*9*neg(8+0*x)*7
 g = x-y-6+1/cos(9)-1*x-exp(3/3)-1+x*2-2+abs(y*x*y)*1+y*cos(y)-tan(cos(9/0*7))-x+1*6/7/7
 b = sqrt(5)*x*5*3-y*y*cos(x*6)+7/7/y 
 
+
+r = 3.06/y*x*6.06-log(3.65/x-1.58)/1.65*9.78/exp(2)*cos(0.65-x)/92/4.80-sqrt(14)/1.21*x
+g = (y*x*pow(4.36,2.16)-y)/1.21*4.81-x
+b = exp(sin(0.50-2.61+pow(7.68,53)))/5.14
 "
  */
 
@@ -102,4 +106,9 @@ function setPixel(imageData, x, y, r, g, b, a) {
     imageData.data[index+1] = g;
     imageData.data[index+2] = b;
     imageData.data[index+3] = a;
+}
+
+///
+function evalRandEq(x, y, expr) {
+	return eval(expr);
 }

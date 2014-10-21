@@ -44,13 +44,13 @@
 	<div id="input-zone" class="pattern01">
 		<label class="crlabel">Red:</label>
 		<input id="req" class="cinput" type="text" name="redeq" size="70" value="">
-		<button type="button" class="cbutton" onclick='$("#req").val(genRandEq(randint(10,150)));'>RndEq</button><br>
+		<button type="button" class="cbutton" onclick='$("#req").val(genRandEq(randInt(10,200)));'>RndEq</button><br>
 		<label class="cglabel">Green:</label> 
 		<input id="geq" class="cinput" type="text" name="greeneq" size="70" value="">
-		<button type="button" class="cbutton" onclick='$("#geq").val(genRandEq(randint(10,150)));'>RndEq</button><br>
+		<button type="button" class="cbutton" onclick='$("#geq").val(genRandEq(randInt(10,200)));'>RndEq</button><br>
 		<label class="cblabel">Blue:</label>
 		<input id="beq" class="cinput" type="text" name="blueeq" size="70" value="">
-		<button class="cbutton" type="button" onclick='$("#beq").val(genRandEq(randint(10,150)));'>RndEq</button>
+		<button class="cbutton" type="button" onclick='$("#beq").val(genRandEq(randInt(10,200)));'>RndEq</button>
 		<button class="cbutton" type="button" onclick='createImageData("canvas");drawRgbEq($("#req").val(), $("#geq").val(), $("#beq").val());'>Plot</button>
 		<button id="sizeButton" class="cbutton" type="button" onclick='changeSize("#sizeButton", "#canvas", 500, 300, 2000, 1000);'>+</button>
 	</div>

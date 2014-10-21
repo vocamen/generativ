@@ -1,68 +1,13 @@
-var openParens = 0;
-
 function negop(val){
 	return -val;
 }
 
-function randint(low, high) {
-	return low + Math.round(Math.random() * high);
-}
-
-function isFunction(object) {
-	return Object.prototype.toString.call(object) == '[object Function]';
-}
-
 function genRandFloatNumber(limits) {
-	return (limits[0] + Math.random() * limits[1]).toFixed(2);
+	return randFloat(limits[0], limits[1]);
 }
 
 function genRandIntNumber(limits) {
-	return limits[0] + Math.round(Math.random() * limits[1]);
-}
-
-function getRandFromList(symbols) {
-	if (symbols.length == 1)
-		return symbols[0];
-	return symbols[randint(0, symbols.length - 1)];
-}
-function endExp(exp) {
-	if (openParens > 0) {
-		openParens -= 1;
-		return exp[0];
-	}
-	return "";
-}
-
-function genExp(symbols) {
-	openParens += 1;
-	return getRandFromList(symbols);
-}
-
-function genDoubleExp(symbols) {
-	openParens += 1;
-	return getRandFromList(symbols);
-}
-
-function ssm(maxIterations, states, rules) {
-	var result = "";
-	var currentState = "initial";
-	currentState = getRandFromList(rules[currentState]);
-	var iterations = 0;
-
-	while (iterations < maxIterations || openParens > 0 || currentState != 'op') {
-		
-		var symbols = states[currentState];
-		
-		if (isFunction(symbols[0]))
-			result += "" + (symbols[0](symbols.slice(1)));
-		else
-			result += "" + (getRandFromList(symbols));
-
-		currentState = getRandFromList(rules[currentState]);
-		iterations += 1;
-	}
-	
-	return result;
+	return randInt(limits[0], limits[1]);
 }
 
 var sin = Math.sin;
@@ -75,80 +20,83 @@ var tan = Math.tan;
 var pow = Math.pow;
 var neg = negop;
 
-function genRandEq2(length) {
-	var states = {
-		"input" : [ "x", "y" ],
-		"number" : [ genRandIntNumber, -10, 10 ],
-		"float-number" : [ genRandFloatNumber, -10, 10 ],
-		"op" : [ "+", "-", "*", "/", "|", "&", "^", "<<", ">>" ],
-		"expr" : [ genExp, "(", "Math.sin(", "Math.cos(", "Math.sqrt(", "Math.exp(", "Math.abs(", "Math.log(", "Math.tan(" ],
-		"endexp" : [ endExp, ")" ]
+var rules = {
+		//duplicate values to increase the probability
+		"$i" : ["$i", "$i$o$i", "$i$o$i", "$i$o$i", "$i$o$i", "$f1$i$e", "$f2$i,$i$e"],
+		"$f1" : ["$f1", "$i$o$f1"],
+		"$f2" : ["$f2", "$i$o$f2"],
+		"$e" : ["$e", "$e$o$i"],
 	};
-	var rules = {
-		"initial" : [ "input", "number", "float-number", "expr" ],
-		"input" : [ "op", "endexp" ],
-		"number" : [ "op", "endexp" ],
-		"float-number" : [ "op", "endexp" ],
-		"op" : [ "input", "number", "float-number", "expr" ],
-		"expr" : [ "input", "number", "float-number", "expr" ],
-		"endexp" : [ "op", "endexp" ]
+
+var replaceT = {
+		"$i" : ["$n", "$r", "$x"],
+		"$n" : [genRandIntNumber, 0, 100],
+		"$r" : [genRandFloatNumber, 0, 10],
+		"$x" : ["t"],
+		"$o" : ["+", "-", "*", "/"],
+		"$f1" : ["neg(", "(", "sin(", "cos(", "sqrt(", "exp(", "abs(", "log(", "tan("],
+		"$f2" : ["pow("],
+		"$e" : [")"]
 	};
-	
-	return ssm(length, states, rules);
-}
+
+var replace = {
+		"$i" : ["$n", "$r", "$x"],
+		"$n" : [genRandIntNumber, 0, 100],
+		"$r" : [genRandFloatNumber, 0, 10],
+		"$x" : ["x", "y"],
+		"$o" : ["+", "-", "*", "/"],
+		"$f1" : ["neg(", "(", "sin(", "cos(", "sqrt(", "exp(", "abs(", "log(", "tan("],
+		"$f2" : ["pow("],
+		"$e" : [")"]
+	};
 
 function genRandEq(length) {
-	var states = {
-		"input" : [ "x", "y" ],
-		"number" : [ genRandIntNumber, 0, 100 ],
-		"float-number" : [ genRandFloatNumber, 0, 10 ],
-		"op" : [ "+", "-", "*", "/" ],
-		"expr" : [ genExp, "neg(", "(", "sin(", "cos(", "sqrt(", "exp(", "abs(", "log(", "tan("],
-		"endexp" : [ endExp, ")" ]
-	};
-	var rules = {
-		"initial" : [ "input", "number", "float-number", "expr" ],
-		"input" : [ "op", "endexp" ],
-		"number" : [ "op", "endexp" ],
-		"float-number" : [ "op", "endexp" ],
-		"op" : [ "input", "number", "float-number", "expr" ],
-		"expr" : [ "input", "number", "float-number", "expr" ],
-		"endexp" : [ "op", "endexp" ]
-	};
-	
-	return ssm(length, states, rules);
+	return newGen(length, rules, replace);
 }
 
 function genRandEqT(length) {
-	var states = {
-		"input" : [ "t" ],
-		"number" : [ genRandIntNumber, 0, 100 ],
-		"float-number" : [ genRandFloatNumber, 0, 10 ],
-		"op" : [ "+", "-", "*", "/" ],
-		"expr" : [ genExp, "neg(", "(", "sin(", "cos(", "sqrt(", "exp(", "abs(", "log(", "tan("],
-		"endexp" : [ endExp, ")" ]
-	};
-	var rules = {
-		"initial" : [ "input", "number", "float-number", "expr" ],
-		"input" : [ "op", "endexp" ],
-		"number" : [ "op", "endexp" ],
-		"float-number" : [ "op", "endexp" ],
-		"op" : [ "input", "number", "float-number", "expr" ],
-		"expr" : [ "input", "number", "float-number", "expr" ],
-		"endexp" : [ "op", "endexp" ]
-	};
+	return newGen(length, rules, replaceT);
+}
+
+function newGen(length, rules, replace) {
+	var expr = "$i";
 	
-	return ssm(length, states, rules);
-}
+	var keys = [];
+	for (var key in rules) {
+	  if (rules.hasOwnProperty(key)) {
+	    keys.push(key);
+	  }
+	}
+	
+	//generate $ expression
+	while (expr.length < length) {
+		var nextRule = keys[randInt(0, keys.length - 1)];
+		var replRule = rules[nextRule][randInt(0, rules[nextRule].length - 1)];
+		expr = expr.replace(nextRule, replRule);
+	}
+	
+	keys = [];
+	for (var key in replace) {
+	  if (replace.hasOwnProperty(key)) {
+	    keys.push(key);
+	  }
+	}
+	
+	//replace all $ with the respective values
+	while (expr.indexOf("$", 0) > -1) {
+		
+		for (var i = 0; i < keys.length; i++) {
+			var nextReplace = replace[keys[i]];
+			var replaceWith = "";
 
-function evalRandEq(x, y, expr) {
-	return eval(expr);
-}
-
-function evalRandEqT(t, expr) {
-	return eval(expr);
-}
-
-function test() {
-	consolgenRandEqog(randeq.js(30));
+			if (isFunction(nextReplace[0])) {
+				replaceWith += "" + (nextReplace[0](nextReplace.slice(1)));
+			} else {
+				replaceWith = nextReplace[randInt(0, nextReplace.length - 1)];
+			}
+			
+			expr = expr.replace(keys[i], replaceWith);
+		}
+	}
+	return expr;
 }
