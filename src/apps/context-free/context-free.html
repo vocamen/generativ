@@ -1,0 +1,67 @@
+<html>
+<head>
+<!-- Source https://code.google.com/p/contextfree/  -->
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>generativ - context free</title>
+	
+	<script type="text/javascript" src="../utils.js"></script>
+	<script type="text/javascript" src="contextfree.js"></script>
+	<script src="../../jquery-2.1.1.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="../apps-style.css">
+
+	<script>
+		function createCanvas(){
+		        var c = document.getElementById("canvas");
+		        c.width = "1000";
+		        c.height = "1000";
+		}
+		
+		function removeCanvas(){
+		       /*  var c = document.getElementById("canvas");
+		        if( c ){
+		                document.getElementById("input-zone").removeChild( c );
+		        } */
+		}
+		
+		function render( el ){
+		        removeCanvas();
+		        createCanvas();
+		       
+		        var t = new Tokenizer();
+		        var tokens = t.tokenize( el.id );
+		
+		        var c = new Compiler();
+		        var compiled = c.compile( tokens );
+		       
+		        Renderer.render( compiled, "canvas" );
+		}
+	</script>
+
+</head>
+
+<body>
+	<div id="input-zone" class="pattern01">
+		<button id="openButton" class="cbutton" onclick="loadCanvas($('#fileUrl').val());">Open</button>
+		<br>
+		<textarea id="inputText" rows="15" cols="133"></textarea>
+		<br>
+		<label class="clabel">Dead rule:</label> 
+		<select id="deadRule" class="cinput">
+			<option value="r0">Pixel</option>
+			<option value="r1">Negative pixel</option>
+			<option value="r2">Min. pixel value (dead pixel)</option>
+			<option value="r3">Average of neighbor pixels</option>
+			<option value="r4">Negative average of neighbor pixels</option>
+			<option value="r5">Random alive pixel</option>
+		</select>
+		<button type="button" class="cbutton" style="margin-left: 305px;" onclick='render(document.getElementById("inputText"));'>Render</button>
+	</div>
+	
+	<canvas id="canvas"></canvas>
+</body>
+
+
+</html>

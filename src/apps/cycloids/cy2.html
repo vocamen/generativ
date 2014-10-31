@@ -1,0 +1,113 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="google-site-verification" content="YoR_5AGPNCw1u1tvIZWh6hD2pIE1IRL0Hiy9F1suAIA"/>
+<title>Animated Harmonograph</title>
+<script type="text/javascript" src="../../jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../utils.js"></script>
+</head>
+<body id="home">
+<div id="container">
+<div id="header">
+<h1><a id="logo" href="/">hernan.amiune</a><a href="/labs/">/labs</a></h1>
+</div>
+<div id="sidebar">
+<ul id="navigation">
+<li><a href="/programming">/programming</a></li>
+<li><a href="/teaching">/teaching</a></li>
+<li><a href="/labs">/labs</a></li>
+<li><a href="/blog/">/blog</a></li>
+<li><a href="/contact">/contact</a></li>
+</ul>
+<br/>
+<span id="om"></span>
+</div>
+<div id="main">
+<h1>Animated Harmonograph</h1>
+<canvas id="canvas" width="600" height="400"></canvas>
+<br/><br/>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+
+	var run = true;
+    var timer = null;
+    
+    
+
+    $("#canvas").click(function() {
+    	randomColor();
+    	randomHarmonograph();
+    });
+
+    var A1 = 100, f1 = 2, p1 = 1/16, d1 = 0.02;
+    var A2 = 100, f2 = 2, p2 = 3 / 2, d2 = 0.0315;
+    var A3 = 100, f3 = 2, p3 = randInt(1, 33) / 15, d3 = 0.02;
+    var A4 = 100, f4 = 2, p4 = 1, d4 = 0.02;
+
+    var r = 0, g = 0, b = 0;
+    
+    var ctx = document.getElementById("canvas").getContext("2d");
+
+
+    function randomColor() {
+
+        r = Math.floor(Math.random() * 256);
+        g = Math.floor(Math.random() * 256);
+        b = Math.floor(Math.random() * 256);
+        
+    }
+
+    function randomHarmonograph() {
+    	
+         A1 = 100, f1 = randInt(1, 10), p1 = 1/randInt(1, 10), d1 = 0.02;
+         A2 = 100, f2 = randInt(1, 10), p2 = randInt(1, 10) / randInt(1, 33), d2 = 0.0315;
+         A3 = 100, f3 = randInt(1, 10), p3 = randInt(1, 10) / randInt(1, 33), d3 = 0.02;
+         A4 = 100, f4 = randInt(1, 10), p4 = 1, d4 = 0.02;
+
+        /*f1 = (f1 + Math.random() / 100) % 10;
+        f2 = (f2 + Math.random() / 100) % 10;
+        f3 = (f3 + Math.random() / 100) % 10;
+        f4 = (f4 + Math.random() / 100) % 10;
+        
+        p1 += 0.05 % (Math.PI*2)
+*/
+        drawHarmonograph();
+    
+    }
+    
+
+    function drawHarmonograph() {
+        ctx.clearRect(0, 0, 600, 400);
+        ctx.save();
+        ctx.fillStyle = "#ffffff";
+        ctx.strokeStyle = "rgb(" + r + "," + g + "," + b + ")";
+        ctx.fillRect(0, 0, 600, 400);
+        ctx.translate(300, 200);
+        ctx.beginPath();
+        for (var t = 0; t < 100; t+=0.01) {
+            var x = A1 * Math.sin(f1 * t + Math.PI * p1) * Math.exp(-d1 * t) + A2 * Math.sin(f2 * t + Math.PI * p2) * Math.exp(-d2 * t);
+            var y = A3 * Math.sin(f3 * t + Math.PI * p3) * Math.exp(-d3 * t) + A4 * Math.sin(f4 * t + Math.PI * p4) * Math.exp(-d4 * t);
+            ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        
+        ctx.restore();
+    }
+	
+
+});
+
+</script>
+</div>
+<div id="footer">
+<p>
+"A good improvisation requires a lot of practice"<br/>
+All rights reserved. Copyright &copy; Hernan Amiune
+</p>
+</div>
+</div>
+</body>
+</html> 

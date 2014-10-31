@@ -1,0 +1,58 @@
+<html>
+
+<head>
+
+	<title>generativ - parametric equations</title>
+	
+	<script type="text/javascript" src="../utils.js"></script>
+ 	<script type="text/javascript" src="../randeq.js"></script>
+	<script type="text/javascript" src="cycloids.js"></script>
+	<script src="../../jquery-2.1.1.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="../apps-style.css">
+	
+	<style type="text/css">
+		#headerText {
+			position: relative;
+			/*z-index: -1; */
+			font-size: 70px;
+			text-decoration: none;
+			/* top:-110px; */
+			float: right;
+			top:0;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div id="input-zone" class="pattern01">
+			<script type="text/javascript">
+				$( document ).ready(function() {
+					createImageData("canvas");
+				});
+			</script>
+	
+		<label class="clabel">X:</label>
+		<input id="xeq" class="cinput" type="text" name="xeq" size="70" value="">
+		<button class="cbutton" type="button" onclick='$("#xeq").val(genRandEqT(randInt(10,200)));'>RndEq</button><br>
+		<label class="clabel">Y:</label>
+		<input id="yeq" class="cinput" type="text" name="yeq" size="70" value="">
+		<button class="cbutton" type="button" onclick='$("#yeq").val(genRandEqT(randInt(10,200)));'>RndEq</button><br>
+		<label class="clabel">T min:</label>
+		<input id="tmin" class="cinput" type="text" name="ptmin" size="5" value="-6.28">
+		<label class="clabel">T max:</label>
+		<input id="tmax" class="cinput" type="text" name="ptmax" size="5" value="6.28">
+		<label class="clabel">Step:</label>
+		<input id="step" class="cinput" type="text" name="pstep" size="5" value="0.001">
+		<label class="clabel">Color:</label>
+		<input id="color" class="cinput" type="color">
+		<button class="cbutton" style="margin-left: 18px;"type="button" onclick='clearCanvas();'>Clear canvas</button>
+		<button class="cbutton" type="button" onclick='drawParamEq($("#xeq").val(), $("#yeq").val(), $("#tmin").val(), $("#tmax").val(), $("#step").val(), $("#color").val());'>Plot</button>
+	</div>
+
+	<!-- <canvas id="canvas" class="ccanvas">Your browser does not support the canvas element.</canvas> -->
+	<canvas id="canvas" width="600" height="400"></canvas>
+</body>
+
+</html>

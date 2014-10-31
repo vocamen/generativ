@@ -37,8 +37,8 @@ function drawParamEq(xeq, yeq, minVal, maxVal, step, color) {
 	 var b = bigint & 255;
 	
 	for (var t = parseFloat(minVal); t < parseFloat(maxVal); t+=parseFloat(step)) {
-		var x = Math.abs(Math.round(width/2 + scale * evalRandEqT(t, xeq)));
-		var y = Math.abs(Math.round(height/2 + scale * evalRandEqT(t, yeq)));
+		var x = Math.abs(Math.round(width/2 + scale * eval(xeq)));
+		var y = Math.abs(Math.round(height/2 + scale * eval(yeq)));
 		
 		setPixel(imageData, x, y, r, g, b, 255);
 	}
@@ -61,9 +61,4 @@ function setPixel(imageData, x, y, r, g, b, a) {
     imageData.data[index+1] = g;
     imageData.data[index+2] = b;
     imageData.data[index+3] = a;
-}
-
-////
-function evalRandEqT(t, expr) {
-	return eval(expr);
 }

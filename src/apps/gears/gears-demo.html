@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gear demo</title>
+</head>
+<body>
+	source: https://github.com/epistemex/gear
+	<canvas id="canvas" width="400" height="400"></canvas>
+	<script src="gears.js"></script>
+	<script src="../utils.js"></script>
+	<script>
+		var canvas = document.getElementById('canvas'), ctx = canvas.getContext('2d');
+		ctx.lineWidth = 2;
+		ctx.strokeStyle = '#777';
+		var gear = DrawGear(ctx, {
+			x : 200,
+			y : 200,
+			notches : randInt(1,20),
+			radiusHole : randInt(10, 190),
+			radiusInner : randInt(10, 180),
+			radiusOuter : 200,
+			taperInner : randInt(1, 190),
+			taperOuter : randInt(1, 190),
+			fill : '#ccc',
+			stroke : '#000',
+			lineWidth : randInt(1, 5),
+			angleOffset : randInt(0, 180),
+			drawFirst : false
+		});
+		var step = gear.angle / 40;
+		(function anim() {
+			ctx.translate(200, 200);
+			ctx.rotate(step);
+			ctx.translate(-200, -200);
+			ctx.clearRect(0, 0, 400, 400);
+			ctx.drawImage(gear.image, 200 - gear.deltaX, 200 - gear.deltaY);
+			//requestAnimationFrame(anim);
+		})
+		
+		();
+	</script>
+</body>
+</html>
