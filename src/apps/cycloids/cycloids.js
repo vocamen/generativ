@@ -1,11 +1,3 @@
-/*
- * Supershapes / Superformula / super ellipse
- *  x = pow(pow(abs(cos(m*t/4)/a),n2)+pow(abs(sin(m*t/4)/b),n3),neg(1)/n1) * cos(t)
-	y = pow(pow(abs(cos(m*t/4)/a),n2)+pow(abs(sin(m*t/4)/b),n3),neg(1)/n1) * sin(t)
- * 
- */
-
-
 var width;
 var height;
 var context;

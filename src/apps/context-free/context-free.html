@@ -7,57 +7,90 @@
 	<title>generativ - context free</title>
 	
 	<script type="text/javascript" src="../utils.js"></script>
-	<script type="text/javascript" src="contextfree.js"></script>
+	<script type="text/javascript" src="cfa.js"></script>
 	<script src="../../jquery-2.1.1.min.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="../apps-style.css">
 
 	<script>
-		function createCanvas(){
-		        var c = document.getElementById("canvas");
-		        c.width = "1000";
-		        c.height = "1000";
-		}
-		
-		function removeCanvas(){
-		       /*  var c = document.getElementById("canvas");
-		        if( c ){
-		                document.getElementById("input-zone").removeChild( c );
-		        } */
-		}
-		
+	
+		$( document ).ready(function() {
+			var c = document.getElementById("canvas");
+	        c.width = "500";
+	        c.height = "500";
+		});
+	
 		function render( el ){
-		        removeCanvas();
-		        createCanvas();
-		       
-		        var t = new Tokenizer();
-		        var tokens = t.tokenize( el.id );
-		
-		        var c = new Compiler();
-		        var compiled = c.compile( tokens );
-		       
-		        Renderer.render( compiled, "canvas" );
+			
+			var halt_fn = function () {};
+			var is_running = false;
+			
+
+			if ($('#onOffButton').text() == "Start") {
+				$('#onOffButton').text("Stop");
+
+				var bbox = $("#size").val().split(",");
+				for (var i = 0; i < bbox.length; i++) {
+					bbox[i] = parseFloat(bbox[i]);
+				}
+
+				var cfa = CFA.parse('inputText');
+				is_running = true;
+				halt_fn = CFA.exec(cfa, bbox, 'canvas');
+			} else {
+				$('#onOffButton').text("Start");
+				halt_fn();
+				is_running = false;
+			}
 		}
+	
 	</script>
 
 </head>
 
 <body>
 	<div id="input-zone" class="pattern01">
-		<button id="openButton" class="cbutton" onclick="loadCanvas($('#fileUrl').val());">Open</button>
+		<label class="clabel">Size:</label> 
+		<input id="size" class="cinput" type="text" name="size" size="15" value="-1,-1,1,1">
 		<br>
-		<textarea id="inputText" rows="15" cols="133"></textarea>
+		<label class="clabel">Instructions:</label>
 		<br>
-		<label class="clabel">Dead rule:</label> 
-		<select id="deadRule" class="cinput">
-			<option value="r0">Pixel</option>
-			<option value="r1">Negative pixel</option>
-			<option value="r2">Min. pixel value (dead pixel)</option>
-			<option value="r3">Average of neighbor pixels</option>
-			<option value="r4">Negative average of neighbor pixels</option>
-			<option value="r5">Random alive pixel</option>
-		</select>
-		<button type="button" class="cbutton" style="margin-left: 305px;" onclick='render(document.getElementById("inputText"));'>Render</button>
+		<textarea id="inputText" rows="15" cols="133">/*
+ * Tree by ColorMeImpressed @ contextfreeart.org
+ * http://www.contextfreeart.org/gallery/view.php?id=2180
+ */
+
+      startshape box
+ 
+rule box 20 {
+    SQUARE {}
+    box {s .99 r 3 y .8}
+}
+rule box 8 {
+    SQUARE {}
+    box {s .99 r 3 y .8 flip 90}
+}
+rule box {
+    SQUARE {}
+    box [s .5 r 10 y .8 b .07 z -.07]
+    box {s .99 y .8}
+    box [s .6 flip 90 r 10 y .8 b .07 z -.07]
+}
+rule box {
+    SQUARE {}
+    box [s .5 r 10 y .8 b .07 z -.07]
+    box {s .99 y .8 flip 90}
+    box [s .5 flip 90 r 10 y .8 b .07 z -.07]
+}
+rule box 3 {
+    SQUARE {}
+    box [s .8 r 10 y .8 b .015 z -.015]
+    box [s .8 flip 90 r 10 y .8 b .015 z -.015]
+}
+  </textarea>
+		<br>
+		<button id="onOffButton" type="button" class="cbutton" onclick='render();'>Start</button>
+		<div style="margin-left: 570px; display: inline-block;">Source: <a href="https://github.com/danshoutis/cfa-js">https://github.com/danshoutis/cfa-js</a></div>
 	</div>
 	
 	<canvas id="canvas"></canvas>
