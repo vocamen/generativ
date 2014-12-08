@@ -13,6 +13,7 @@ var helpMessage = "scan the input text and extract words;\n" +
 		 		  "words lists: 'w1' -> 'w2 w3'; 'w2' -> 'w2 w4'; 'w3' -> 'w4 w1' ..... 'w7' -> 'w3 w1'";
 
 function parseText(text, leftWords, rightWords) {
+	wordDict = {};
     var textParts = text.split(/\s+/);
     
     for (var i = 0; i < textParts.length - (leftWords + rightWords - 1); i++) {
