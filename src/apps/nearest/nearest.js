@@ -28,10 +28,14 @@ function nearest(type, apply, dir) {
 	var func;
 	var direction;
 
-	if (type == "prime")
+	if (type === "prime")
 		func = isPrime;
-	else if (type == "fibo")
+	else if (type === "fibo")
 		func = isFibo;
+	else if (type === "psquare")
+		func = isPerfectSquare;
+	else if (type === "pentagonal")
+		func = isPentagonal;
 
 	if (dir == "up")
 		direction = 1;
@@ -68,7 +72,7 @@ function nearest(type, apply, dir) {
 			var nr = getNearest(r, direction, func);
 			var ng = getNearest(g, direction, func);
 			var nb = getNearest(b, direction, func);
-
+			
 			// TODO
 			nr = nr % 255;
 			ng = ng % 255;
@@ -113,12 +117,12 @@ function intToRgb(color) {
 function getNearest(number, dir, func) {
 	if (func === isFibo) {
 		return isFibo(number, dir);
-	} else if (func === isPrime) {
+	} else {
 		while (!func(number))
 			number += dir;
 
 		return number;
-	}
+	} 
 }
 
 function isPrime(number) {
@@ -149,6 +153,10 @@ function isFibo(n, dir) {
 	}
 	return -1;
 //	return isPerfectSquare(5 * n * n + 4) || isPerfectSquare(5 * n * n - 4);
+}
+
+function isPentagonal(n) {
+	return isPerfectSquare(24 * n + 1);
 }
 
 // function isFibo(number) {
