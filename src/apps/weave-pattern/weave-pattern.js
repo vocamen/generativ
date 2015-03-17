@@ -25,22 +25,22 @@ function createImageData(canvasId) {
 	
 	weaveH = 300;
 	weaveW = 300;
-	topSize = 6;
-	leftSize = 6;
+	topSize = 4;
+	leftSize = 4;
 	
-	topPattern = new Array(weaveH);
+	topPattern = new Array(weaveW);
 	for (var i = 0; i < weaveW; i++) {
-		topPattern[i] = new Array(weaveW);
+		topPattern[i] = new Array(topSize);
 	}
 	
-	middlePattern = new Array(weaveH);
+	middlePattern = new Array(leftSize);
 	for (var i = 0; i < weaveH; i++) {
-		middlePattern[i] = new Array(weaveW);
+		middlePattern[i] = new Array(topSize);
 	}
 	
 	leftPattern = new Array(weaveH);
 	for (var i = 0; i < weaveH; i++) {
-		leftPattern[i] = new Array(weaveW);
+		leftPattern[i] = new Array(leftSize);
 	}
 	
 	weavePattern = new Array(weaveH);
@@ -58,19 +58,19 @@ function initPatterns() {
 	for (var i = 0; i < weaveH; i++) {
 		for (var j = 0; j < weaveW; j++) {
 			if (i < topSize) {
-				topPattern[i][j] = j % 9;// randInt(0, 1);
+				topPattern[i][j] =  ((j + i) % 4 === 0 || (j + i) % 7 === 0 || (j + i) % 3 === 0|| (j + i) % 8 === 0 || (j + i) % 9 === 0) ? 1 : 0;// randInt(0, 1);
 			} else {
 				topPattern[i][j] = 0;
 			}
 			
 			if (j < leftSize) {
-				leftPattern[i][j] = randInt(0, 1);
+				leftPattern[i][j] = (j + i) % 3 === 0 ? 1 : 0;
 			} else {
 				leftPattern[i][j] = 0;
 			}
 			
 			if (i < topSize && j < leftSize) {
-				middlePattern[i][j] = randInt(0, 1);
+				middlePattern[i][j] = ((j + i) % 3 === 0 || (j + i) % 7 === 0 || (j + i) % 8 === 0 || (j + i) % 9 === 0)? 1 : 0;
 			} else {
 				middlePattern[i][j] = 0;
 			}
@@ -112,17 +112,17 @@ function anim() {
 
 function draw(imageData) {
 	
-	var rc1 = randInt(1, 255);
-	var rc2 = randInt(1, 255);
-	var rc3 = randInt(1, 255);
+	var rc1 = randInt(201, 255);
+	var rc2 = randInt(201, 255);
+	var rc3 = randInt(201, 255);
 	
 	for (var x = 0; x < weaveW; x++) {
 		for (var y = 0; y < weaveH; y++) {
 			index = x + y * weaveW;
 			
-			var rr = parseInt(weavePattern[y][x]) * rc1 % 255;
-			var gg = parseInt(weavePattern[y][x]) * rc1 % 255;
-			var bb = parseInt(weavePattern[y][x]) * rc1 % 255;
+			var rr = parseInt(weavePattern[y][x]) * 255;//rc1 % 255;
+			var gg = parseInt(weavePattern[y][x]) * 255;//rc1 % 255;
+			var bb = parseInt(weavePattern[y][x]) * 255;//rc1 % 255;
 			
 			setPixel(imageData, x, y, rr, gg, bb, 255);
 		}
