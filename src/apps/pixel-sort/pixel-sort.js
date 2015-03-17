@@ -132,16 +132,11 @@ var i = 0;
 
 function anim() {
 	widthSort();
-//	if (i == 0) {
-//		widthSort();
-//		i++;
-//	} else {
-//		heightSort();
-//		i--;
-//	}
+//    heightSort();
+//    diagSort();
 	
 	draw(imageData);
-	timer = setTimeout(anim, 1000);
+	timer = setTimeout(anim, 500);
 	oldCellData = newCellData.slice(0);
 	c.putImageData(imageData, 0, 0);
 }
