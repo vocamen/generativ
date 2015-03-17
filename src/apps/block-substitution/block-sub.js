@@ -11,20 +11,20 @@ var newCellData;
 
 var startH = 1;
 var startW = 1;
-var startPattern = [0xff0000];
-var prevRules = [0xffffff, 0xff0000, 0x00ff00];
-var ruleW = 3;
-var ruleH = 3;
-//var nextRules = [[0, 0xffffff, 0, 0], [0xffffff, 0xffffff, 0xffffff, 0xffffff]];
-////var nextRules = [[0, 0, 0, 0xffffff], [0xffffff, 0xffffff, 0, 0]];
-var nextRules = [[0xffffff, 0xffffff, 0xffffff, 0xffffff, 0xffffff, 0xffffff, 0xffffff, 0xffffff, 0xffffff], 
-                 [0xff0000, 0xff0000, 0xff0000, 0xff0000, 0x00ff00, 0xff0000, 0xff0000, 0xff0000, 0xff0000],
-                 [0xffffff, 0x00ff00, 0xffffff, 0x00ff00, 0xff0000, 0x00ff00, 0xffffff, 0x00ff00, 0xffffff]];
-//var nextRules = [[0xffffff, 0xffffff, 0xffffff, 0xffffff, 0xffffff, 0xffffff, 0xffffff, 0xffffff, 0xffffff], 
-//                 [0, 0, 0, 0, 0xffffff, 0, 0, 0, 0],
-//                 [0xffffff, 0, 0xffffff, 0, 0, 0, 0xffffff, 0, 0xffffff]];
-//var nextRules = [[0, 0xffffff, 0xffffff, 0], [0xffffff, 0, 0, 0xffffff]];
-//var nextRules = [[0, 0xffffff, 0xffffff, 0, 0, 0xffffff], [0xffffff, 0, 0, 0xffffff, 0xffffff, 0]];
+var startPattern = ['#ff0000'];
+var prevRules = ['#ffffff', '#ff0000'];//, '#00ff00'];
+var ruleW = 2;
+var ruleH = 2;
+var nextRules = [['#00ff00', '#ffffff', '#000000', '#ff0000'], ['#ffffff', '#ff0000', '#ffffff', '#ff0000']];
+//var nextRules = [['#000000', '#000000', '#000000', '#ffffff'], ['#ffffff', '#ffffff', '#000000', '#000000']];
+//var nextRules = [['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff'], 
+//                 ['#ff0000', '#ff0000', '#ff0000', '#ff0000', '#00ff00', '#ff0000', '#ff0000', '#ff0000', '#ff0000'],
+//                 ['#ffffff', '#00ff00', '#ffffff', '#00ff00', '#ff0000', '#00ff00', '#ffffff', '#00ff00', '#ffffff']];
+//var nextRules = [['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff'], 
+//                 ['#000000', '#000000', '#000000', '#000000', '#ffffff', '#000000', '#000000', '#000000', '#000000'],
+//                 ['#ffffff', '#000000', '#ffffff', '#000000', '#000000', '#000000', '#ffffff', '#000000', '#ffffff']];
+//var nextRules = [['#000000', '#ffffff', '#ffffff', 0], ['#ffffff', '#000000', '#000000', '#ffffff']];
+//var nextRules = [['#000000', '#ffffff', '#ffffff', '#000000', '#000000', '#ffffff'], ['#ffffff', '#000000', '#000000', '#ffffff', '#ffffff', 0]];
 
 function createImageData(canvasId) {
 	var element = document.getElementById(canvasId);
@@ -83,7 +83,7 @@ function nextGen() {
 }
 
 function anim() {
-	for (var i = 0; i < 6; i++) {
+	for (var i = 0; i < 8; i++) {
 		nextGen();
 	}
 	draw(imageData);
@@ -96,16 +96,16 @@ function draw(imageData) {
 		for (var y = 0; y < newH; y++) {
 			index = x + y * newW;
 			
-			if (newCellData[index] === 0xffffff)
+			if (newCellData[index] === '#ffffff')
 				setPixel(imageData, x, y, 255, 255, 255, 255);
-			else if (newCellData[index] === 0xff0000)
+			else if (newCellData[index] === '#ff0000')
 				setPixel(imageData, x, y, 255, 0, 0, 255);
-			else if (newCellData[index] === 0x00ff00)
+			else if (newCellData[index] === '#00ff00')
 				setPixel(imageData, x, y, 0, 255, 0, 255);
-//			if (newCellData[index] === 0)
-//				setPixel(imageData, x, y, 0, 0, 0, 255);
-//			else
-//				setPixel(imageData, x, y, 255, 255, 255, 255);
+            else if (newCellData[index] === '#0000ff')
+				setPixel(imageData, x, y, 0, 0, 255, 255);
+			else
+				setPixel(imageData, x, y, 0, 0, 0, 255);
 		}
 	}
 }
