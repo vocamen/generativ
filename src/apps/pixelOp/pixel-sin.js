@@ -4,9 +4,6 @@ var height;
 var c;
 var oldCellData;
 var newCellData;
-var timer;
-var stepWidth = 1;
-var stepHeight = 10;
 
 function loadCanvas(imagePath) {
 
@@ -14,11 +11,6 @@ function loadCanvas(imagePath) {
     var ctx = oc.getContext("2d");
     var img = new Image();
     img.onload = function () {
-
-        if (timer) {
-            clearTimeout(timer);
-            timer = 0;
-        }
 
         oc.width = img.width;
         oc.height = img.height;
@@ -45,13 +37,10 @@ function loadCanvas(imagePath) {
             }
         }
     };
-    //img.crossOrigin = 'anonymous';
     img.src = imagePath;
 }
 
-function createImageData(canvasId, rule) {
-    currentRule = rule;
-
+function createImageData(canvasId, formula, amount) {
     var element = document.getElementById(canvasId);
     c = element.getContext("2d");
 
@@ -62,35 +51,27 @@ function createImageData(canvasId, rule) {
     height = element.clientHeight;
 
     imageData = c.createImageData(width, height);
-
-    anim();
+     
+    for (var i = 0; i < parseInt(amount); i++) {
+        anim(formula);
+    }
 
     c.putImageData(imageData, 0, 0);
 }
 
-function widthSort() {
-    for (var x = 0; x < width - 1; x += 1) {
-        var ssum = 0;
-        for (var y = 0; y < height - 1; y += 1) {
+function pixelFormula(formula) {
+    for (var x = 0; x < width; x += 1) {
+        for (var y = 0; y < height; y += 1) {
             var index = x + y * width;
-
-            var nx = Math.round(Math.sin(6.283 * 0.2 * x / width) / Math.cos(6.283 * 0.2 * y / height) * width);
-            var ny = Math.round(Math.sin(6.283 * 0.2 * y / height)  * height);
-//            var newIndex = ( width - nx + (height - ny) * width);
-            var newIndex = (nx + (height - ny) * width);
-
-            newCellData[index] = oldCellData[newIndex];
+            newCellData[index] = eval(formula);
+            newCellData[index] = newCellData[index] % (255 * 255 * 255);
         }
     }
 }
 
-
-var i = 0;
-
-function anim() {
-    widthSort();
+function anim(formula) {
+    pixelFormula(formula);
     draw(imageData);
-    timer = setTimeout(anim, 3000);
     oldCellData = newCellData.slice(0);
     c.putImageData(imageData, 0, 0);
 }

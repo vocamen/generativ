@@ -4,21 +4,12 @@ var height;
 var c;
 var oldCellData;
 var newCellData;
-var timer;
-var stepWidth = 1;
-var stepHeight = 10;
 
 function loadCanvas(imagePath) {
-
 	var oc = document.getElementById("originalCanvas");
 	var ctx = oc.getContext("2d");
 	var img = new Image();
 	img.onload = function() {
-
-		if (timer) {
-			clearTimeout(timer);
-			timer = 0;
-		}
 
 		oc.width = img.width;
 		oc.height = img.height;
@@ -45,13 +36,10 @@ function loadCanvas(imagePath) {
 			}
 		}
 	};
-	//img.crossOrigin = 'anonymous';
 	img.src = imagePath;
 }
 
-function createImageData(canvasId, rule) {
-	currentRule = rule;
-	
+function createImageData(canvasId, rule, amount) {
 	var element = document.getElementById(canvasId);
 	c = element.getContext("2d");
 	
@@ -63,7 +51,9 @@ function createImageData(canvasId, rule) {
 
 	imageData = c.createImageData(width, height);
 	
-	anim();
+    for (var i=0;i<parseInt(amount);i++) {
+        anim(rule);
+    }
 	
 	c.putImageData(imageData, 0, 0);
 }
@@ -128,15 +118,16 @@ function diagSort() {
 	}
 }
 
-var i = 0;
-
-function anim() {
-	widthSort();
-//    heightSort();
-//    diagSort();
+function anim(rule) {
+    if (rule === 'r0') {
+        widthSort();
+    } else if (rule === 'r1') {
+        heightSort();
+    } else if (rule === 'r2') {
+        diagSort();
+    }
 	
 	draw(imageData);
-	timer = setTimeout(anim, 500);
 	oldCellData = newCellData.slice(0);
 	c.putImageData(imageData, 0, 0);
 }
