@@ -19,8 +19,8 @@ function createImageData(canvasId) {
 
 	imageData = c.createImageData(1000, 1000);
 	
-	patternH = 300;
-	patternW = 300;
+	patternH = 500;
+	patternW = 500;
 	
 	pattern = new Array(patternH);
 	for (var i = 0; i < patternW; i++) {
@@ -108,10 +108,11 @@ function draw(imageData) {
 		for (var y = 0; y < patternH; y++) {
 			index = x + y * patternW;
 			
-			if (pattern[y][x] === 1)
-				setPixel(imageData, x, y, 0, 0, 0, 255);
-			else
+			if (pattern[y][x] === 1) {
 				setPixel(imageData, x, y, 255, 255, 255, 255);
+            } else {
+				setPixel(imageData, x, y, 255, 255, 255, 0);
+            }
 		}
 	}
 }

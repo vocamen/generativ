@@ -19,7 +19,8 @@ function drawParamEq(xeq, yeq, minVal, maxVal, step, color) {
 	 var g = (bigint >> 8) & 255;
 	 var b = bigint & 255;
 	
-	 var type = "superformula";//"hypotrochoid";//"epitrochoid";//"hypocycloid"; //"epicycloid";//"harmonograph";
+//	 var type = "superformula";//"hypotrochoid";//"epitrochoid";//"hypocycloid"; //"epicycloid";//"harmonograph";
+	 var type = "harmonograph";
 	 var scale = 10;
 	 
 	 context.clearRect(0, 0, width, height);
