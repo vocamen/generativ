@@ -5,7 +5,7 @@ var c;
 var patternW = 0;
 var patternH = 0;
 var pattern;
-var twillPattern = "3/3/2"; // filled/empty/shift 
+var twillPattern = "4/3/2"; // filled/empty/shift 
 var twillPattern2 = "3/3/0,2,4,0,2,4"; //filled/empty/shift pattern
 
 function createImageData(canvasId) {
@@ -20,8 +20,8 @@ function createImageData(canvasId) {
 
 	imageData = c.createImageData(1000, 1000);
 	
-	patternH = 300;
-	patternW = 300;
+	patternH = 600;
+	patternW = 600;
 	
 	pattern = new Array(patternH);
 	for (var i = 0; i < patternW; i++) {
